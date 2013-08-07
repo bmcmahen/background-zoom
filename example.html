@@ -10,8 +10,8 @@
 
 		div.background {
 			position: absolute;
-			-webkit-transition: all 0.4s ease-out;
-			-webkit-filter: opacity(0);
+			-webkit-transition: all 0.4s linear;
+			-moz-transition: all 0.4s linear;
 			background-size: cover;
 		}
 
@@ -32,10 +32,24 @@
 			background: #ddd;
 		}
 
-		div.background.showing {
-			-webkit-filter: opacity(1);
-			-webkit-transition: all 0.4s ease-out;
+		div.background.in {
+			-webkit-animation: opacity-anim 0.4s linear;
 		}
+
+		div.background.out {
+			-webkit-animation: opacity-anim-out 0.4s linear;
+		}
+
+		@-webkit-keyframes opacity-anim {
+		  from { opacity: 0; }
+		  to   { opacity: 1; }
+		}
+
+		@-webkit-keyframes opacity-anim-out {
+		  from { opacity: 1; }
+		  to   { opacity: 0; }
+		}
+
 	</style>
 </head>
 <body>
@@ -46,7 +60,7 @@
 	<script>
 	var BackgroundZoom = require('background-zoom');
 	var container = document.getElementById('container');
-	var zoom = new BackgroundZoom(null, container)
+	var zoom = new BackgroundZoom('image2.jpg', container)
 		.duration(400)
 		.className('background')
 		.target(0, 0, 1200, 600)

@@ -2,17 +2,12 @@ var Emitter = require('emitter');
 var classes = require('classes');
 var transform = require('transform-property');
 
-// example: var zoom = new BackgroundZoom('http://somurl', div)
-// 	.duration(500)
-// 	.target(x, y, w, h)
-// 	.origin(x, y, w, h)
-// 	.show();
-//
-// 	zoom.on('showing', function(){
-// 		setTimeout(function(){
-// 			zoom.hide();
-// 		}, 3000);
-// 	})
+/**
+ * Background Zoom Constructor
+ * @param  {String} src       url of image, or null for no image
+ * @param  {Element} container element
+ * @return {BackgroundZoom}
+ */
 
 var BackgroundZoom = function(src, container){
 	this.src = src;
@@ -40,7 +35,7 @@ BackgroundZoom.prototype.createElement = function(fn){
 };
 
 BackgroundZoom.prototype.className = function(name){
-	this.el.className = name;
+	classes(this.el).add(name);
 	return this;
 };
 
@@ -53,13 +48,16 @@ BackgroundZoom.prototype.className = function(name){
 BackgroundZoom.prototype.show = function(fn){
 	var self = this;
 	var zoom = function(){
-		self.setOriginalPosition();
-		self.container.innerHTML = '';
-		self.container.appendChild(self.el);
+		// this is silly, but safari seems to need it. safari is very needy.
+		setTimeout(function(){
+			self.setOriginalPosition();
+			self.container.innerHTML = '';
+			self.container.appendChild(self.el);
+		}, 0);
 		setTimeout(function(){
 			self.setTargetPosition();
 			self.emit('showing');
-			classes(self.el).add('showing');
+			classes(self.el).add('in');
 		}, 0);
 		if (fn) fn();
 	};
@@ -89,9 +87,10 @@ BackgroundZoom.prototype.show = function(fn){
 BackgroundZoom.prototype.hide = function(){
 	this.setOriginalPosition();
 	var self = this;
-	classes(self.el).remove('showing');
+	classes(self.el).remove('in').add('out');
 	setTimeout(function(){
 		self.el.parentNode.removeChild(self.el);
+		classes(self.el).remove('out');
 		self.emit('hidden');
 	}, this._duration);
 };
@@ -104,7 +103,10 @@ BackgroundZoom.prototype.hide = function(){
 BackgroundZoom.prototype.setTargetPosition = function(){
 	var o = this._target;
 	var s = this.el.style;
-	s[transform] = 'translate3d('+ o.x +'px, '+ o.y +'px, 0) scale(1)';
+	// for safari. boo.
+	setTimeout(function(){
+		s[transform] = 'translate3d('+ o.x +'px, '+ o.y +'px, 0) scale(1)';
+	}, 0);
 	return this;
 };
 
