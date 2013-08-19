@@ -72,7 +72,8 @@ div.background.out {
 
 ## Caveat
 
-Currently the origin and target point need to have the same width/height ratio, otherwise the origin point is messed up. This will be fixed eventually.
+- Currently the origin and target point need to have the same width/height ratio, otherwise the origin point is messed up. This will be fixed eventually.
+- Browser support is pretty limited.
 
 ## License
 
