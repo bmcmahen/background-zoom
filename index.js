@@ -9,9 +9,8 @@ var transform = require('transform-property');
  * @return {BackgroundZoom}
  */
 
-var BackgroundZoom = function(src, container){
-  this.src = src;
-  this.el = document.createElement('div');
+var BackgroundZoom = function(el, container){
+  this.el = el;
   this.container = container;
   this._duration = 800;
 }
@@ -20,24 +19,6 @@ module.exports = BackgroundZoom;
 
 Emitter(BackgroundZoom.prototype);
 
-BackgroundZoom.prototype.createElement = function(fn){
-  var src = this.src;
-  if (src) {
-    this.image = document.createElement('img');
-    var self = this;
-    // todo: unbind.
-    this.image.onload = function(){
-      self.el.style['background-image'] = 'url("'+ src +'")';
-      if (fn) fn();
-    }
-    this.image.src = src;
-  }
-};
-
-BackgroundZoom.prototype.className = function(name){
-  classes(this.el).add(name);
-  return this;
-};
 
 /**
  * Zoom our image
@@ -62,25 +43,7 @@ BackgroundZoom.prototype.show = function(fn){
     if (fn) fn();
   };
 
-  // Support zooming without a background image, perhaps using
-  // just a colour.
-  if (!this.src) {
-    classes(self.el).add('no-image');
-    zoom();
-    return this;
-  }
-
-  // Preload the background image by creating an
-  // image element, and setting our el background to
-  // that image.
-  if (!this.image) {
-    this.createElement(function(){
-      zoom();
-    });
-  } else {
-    zoom();
-  }
-
+  zoom();
   return this;
 };
 
@@ -158,6 +121,20 @@ BackgroundZoom.prototype.origin = function(x, y, w, h){
   this._origin = { x: x, y: y, w: w, h: h };
   return this;
 }
+
+/**
+ * Set end dimensions. Will default to target width and height
+ * but you may want to use percentages instead.
+ * @param  {String} w width e.g. 100%
+ * @param  {String} h height
+ * @return {BackgroundZoom}
+ */
+
+BackgroundZoom.prototype.setDimensions = function(w, h){
+  this._width = w;
+  this._height = h;
+  return this;
+};
 
 /**
  * Set target position

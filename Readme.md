@@ -1,7 +1,7 @@
 
-# background-zoom
+# zoom
 
-  Zoom a background-image or empty element from an origin position/size, to a target position/size. I'm using it to create an iOS style launch animation.
+  Zoom a DOM element from an origin position/size, to a target position/size. It's useful for zooming thumbnails, creating iOS style launch animations, etc.
 
 ## Installation
 
@@ -12,11 +12,16 @@
 ## Example
 
 ```javascript
-var BackgroundZoom = require('background-zoom');
+var Zoom = require('zoom');
 var container = document.getElementById('container');
-var zoom = new BackgroundZoom(null, container)
+
+// create our zoomed element
+var el = document.createElement('div');
+el.classList.add('bacon-zoom');
+el.innerHTML = '<h1> bacon </h1>';
+
+var zoom = new Zoom(el, container)
 	.duration(400)
-	.className('background')
 	.target(0, 0, 1200, 600)
 	.origin(400, 500, 100, 50);
 
@@ -33,10 +38,41 @@ bdy.addEventListener('click', function(){
 })
 ```
 
-## Todo
+```css
+body {
+			position: relative;
+		}
 
-The constructor should accept an element (with content) that could be zoomed.
+div.bacon-zoom {
+	position: absolute;
+	-webkit-transition: all 0.4s linear;
+	-moz-transition: all 0.4s linear;
+	background-image: url('image2.jpg');
+	background-size: cover;
+}
 
+div.background.in {
+	-webkit-animation: opacity-anim 0.4s ease-out;
+}
+
+div.background.out {
+	-webkit-animation: opacity-anim-out 0.4s ease-out;
+}
+
+@-webkit-keyframes opacity-anim {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@-webkit-keyframes opacity-anim-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+```
+
+## Caveat
+
+Currently the origin and target point need to have the same width/height ratio, otherwise the origin point is messed up. This will be fixed eventually.
 
 ## License
 

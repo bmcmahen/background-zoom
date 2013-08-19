@@ -60,9 +60,13 @@
 	<script>
 	var BackgroundZoom = require('background-zoom');
 	var container = document.getElementById('container');
-	var zoom = new BackgroundZoom('image2.jpg', container)
+	var el = document.createElement('div');
+	el.innerHTML = 'this is some text yo.';
+	el.style['background-image'] = 'url("image2.jpg")';
+	el.classList.add('background');
+
+	var zoom = new BackgroundZoom(el, container)
 		.duration(400)
-		.className('background')
 		.target(0, 0, 1200, 600)
 		.origin(400, 500, 100, 50);
 
