@@ -40,8 +40,8 @@ bdy.addEventListener('click', function(){
 
 ```css
 body {
-			position: relative;
-		}
+	position: relative;
+}
 
 div.bacon-zoom {
 	position: absolute;
@@ -51,11 +51,11 @@ div.bacon-zoom {
 	background-size: cover;
 }
 
-div.background.in {
+div.bacon-zoom.in {
 	-webkit-animation: opacity-anim 0.4s ease-out;
 }
 
-div.background.out {
+div.bacon-zoom.out {
 	-webkit-animation: opacity-anim-out 0.4s ease-out;
 }
 
