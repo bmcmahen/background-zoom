@@ -1,8 +1,8 @@
 {
-  "name": "background-zoom",
-  "repo": "bmcmahen/background-zoom",
-  "description": "create an ios-style launch animation, but with a background image",
-  "version": "0.0.1",
+  "name": "zoom",
+  "repo": "bmcmahen/zoom",
+  "description": "zoom an element from one fixed position to another",
+  "version": "0.0.2",
   "keywords": [],
   "dependencies": {
     "component/emitter": "1.0.1",
@@ -14,8 +14,5 @@
   "main": "index.js",
   "scripts": [
     "index.js"
-  ],
-  "styles": [
-    "background-zoom.css"
   ]
 }
