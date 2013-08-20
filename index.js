@@ -52,8 +52,8 @@ BackgroundZoom.prototype.hide = function(){
   var self = this;
   classes(self.el).remove('in').add('out');
   setTimeout(function(){
-    self.el.parentNode.removeChild(self.el);
     classes(self.el).remove('out');
+    self.el.parentNode.removeChild(self.el);
     self.emit('hidden');
   }, this._duration);
 };
@@ -82,10 +82,10 @@ BackgroundZoom.prototype.setTargetPosition = function(){
 BackgroundZoom.prototype.setOriginalPosition = function(){
   var o = this._origin;
   var t = this._target;
-  var s = this.el.style;
 
-  s.width = t.w + 'px';
-  s.height = t.h + 'px';
+  var s = this.el.style;
+  s.width = this._width || t.w + 'px';
+  s.height = this._height || t.h + 'px';
 
   var scale = o.w / t.w;
   var translateX = (o.x + (o.w / 2)) - (t.x + (t.w / 2));
